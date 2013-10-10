@@ -1,8 +1,8 @@
 PSLDoc2
 =======
 
-(Jia-Ming please provide a short description)
-
+PSLDoc2 is the extended version of PSLDoc. 
+http://tcoffee.crg.cat/psldoc2
 
 Dependencies
 ------------
