@@ -1,7 +1,7 @@
 PSLDoc2
 =======
 
-PSLDoc2 is the extended version of PSLDoc. 
+PSLDoc2 is the extended version of PSLDoc.
 http://tcoffee.crg.cat/psldoc2
 
 Dependencies
