@@ -10,3 +10,18 @@ Dependencies
  * PSI-BLAST (Position-Specific Initiated BLAST 2.2.28+)
  * FactoMineR R package (it requires R packages: car, ellipse, lattice, cluster, scatterplot3d, leaps) http://cran.r-project.org/web/packages/FactoMineR/index.html
  
+
+Stand alone version
+------------
+
+Prediction
+------------
+
+ * PSI-BLAST (Position-Specific Initiated BLAST 2.2.28+)
+ * FactoMineR R package (it requires R packages: car, ellipse, lattice, cluster, scatterplot3d, leaps) http://cran.r-project.org/web/packages/FactoMineR/index.html
+
+Build your own model
+------------
+
+ * PSI-BLAST (Position-Specific Initiated BLAST 2.2.28+)
+ * FactoMineR R package (it requires R packages: car, ellipse, lattice, cluster, scatterplot3d, leaps) http://cran.r-project.org/web/packages/FactoMineR/index.html
