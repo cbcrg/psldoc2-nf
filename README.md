@@ -31,5 +31,10 @@ Prediction
 Build your own model
 ------------
 
- * PSI-BLAST (Position-Specific Initiated BLAST 2.2.28+)
- * FactoMineR R package (it requires R packages: car, ellipse, lattice, cluster, scatterplot3d, leaps) http://cran.r-project.org/web/packages/FactoMineR/index.html
+ * training phase
+ * psldoc2-train.nf -> CA_train.R
+ *  input: model.fasta
+ *  output: model.tfpssm, plot_model.json, accuracy+nfold.csv (CA dims)
+ * predicting phase -> CA_pred.R (query.fasta, model.tfpssm, CA dims)
+ *  input: query.fasta, model.tfpssm
+ *  output: plot_query.json, query.pred
