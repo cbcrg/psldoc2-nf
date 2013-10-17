@@ -1,7 +1,10 @@
 PSLDoc2
 =======
 
-PSLDoc2 is the extended version of PSLDoc.
+PSLDoc2 is the extended version of PSLDoc and it is implemented based on the nextflow framework.
+https://github.com/paoloditommaso/nextflow
+
+web site: 
 http://tcoffee.crg.cat/psldoc2
 
 Dependencies
