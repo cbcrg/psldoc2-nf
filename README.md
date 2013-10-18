@@ -22,6 +22,9 @@ Prediction
 
  * 1.localizaiton
  * prokaryotic : PSORTb v3 data
+ *  Gram-negative
+ *  Gram-positve
+ *  archea
  * eukaryotic
  *  plant protein, http://cal.tongji.edu.cn/PlantLoc/
  *  human
