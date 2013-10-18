@@ -20,12 +20,17 @@ Stand alone version
 Prediction
 ------------
 
- * Model: 
+ * 1.localizaiton
  * prokaryotic : PSORTb v3 data
  * eukaryotic
  *  plant protein, http://cal.tongji.edu.cn/PlantLoc/
+ *  human
+ *  animal
+ *  fungi
+ *  yeast
  * Viral protein 
- * Nucleus
+ * 2.nuclear
+ * 3.general protein function
  * Kinase
 
 Build your own model
