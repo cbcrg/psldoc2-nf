@@ -44,10 +44,11 @@ Build your own model
  *  input: model.fasta
  *  output: model.tfpssm, plot_model.json, accuracy-nfold.csv, predict.csv (CA dims)
  
- $nextflow psldoc2_train.nf --model=../../../data/PSL/PSORTb3.0/Archaeal.fasta --fold_num=5
+ $ nextflow psldoc2_train.nf --model=../../../data/PSL/PSORTb3.0/Archaeal.fasta --fold_num=5
 
  * predicting phase -> CA_pred.R (query.fasta, model.tfpssm, CA dims)
  *  input: query.fasta, model.tfpssm
  *  output: plot_query.json, query.pred
  
- $nextflow psldoc2_pred.nf --query=data/examples/small.fa --model=results/m_tfpssm_merge --CA_dim=36
+ $ nextflow psldoc2_pred.nf --query=data/examples/small.fa --model=results/m_tfpssm_merge --CA_dim=36
+
