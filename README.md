@@ -40,9 +40,9 @@ Build your own model
 ------------
 
  * training phase
- * psldoc2-train.nf -> CA_train.R
+ * psldoc2-train.nf -> CA_train+nFoldValidation.R
  *  input: model.fasta
- *  output: model.tfpssm, plot_model.json, accuracy+nfold.csv (CA dims)
+ *  output: model.tfpssm, plot_model.json, accuracy-nfold.csv, predict.csv (CA dims)
  * predicting phase -> CA_pred.R (query.fasta, model.tfpssm, CA dims)
  *  input: query.fasta, model.tfpssm
  *  output: plot_query.json, query.pred
