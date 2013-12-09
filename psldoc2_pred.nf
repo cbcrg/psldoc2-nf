@@ -26,7 +26,9 @@ def parseId(def str) {
 
 DB = file(params.db)
 output_folder = file(params.output)
+model_file = file(params.model)
 if(!output_folder.exists()) output_folder.mkdirs()
+if( !model_file.exists() ) { error 1, "Specified model file does not exist: ${model_file}" }
 
 /* 
  * query part 
@@ -64,8 +66,7 @@ task ('query CA+1NN') {
   output pred_query
 
   """
-  export R_LIBS_USER='$PWD/r_libs'
-  CA_pred.R ${params.model} ${q_tfpssm} ${params.CA_dim}
+  CA_pred.R ${model_file} ${q_tfpssm} ${params.CA_dim}
   cat 'plot_query.json'> plot_query
   cat '1NN_res.csv' > pred_query
   """

@@ -13,6 +13,17 @@ Dependencies
  * PSI-BLAST (Position-Specific Initiated BLAST 2.2.28+)
  * FactoMineR R package (it requires R packages: car, ellipse, lattice, cluster, scatterplot3d, leaps) http://cran.r-project.org/web/packages/FactoMineR/index.html
  
+Configuration 
+-------------
+
+Extra R libraries can be specified using the ``R_LIBS`` environment variables. Add this variable 
+to the ``nextflow.config`` file in the project root folder, as shown in the following example:
+
+    env {
+      R_LIBS = "$PWD/r_libs/"
+    }
+
+
 
 Stand alone version
 ------------
@@ -52,5 +63,5 @@ Build your own model
     *  input: query.fasta, model.tfpssm
     *  output: plot_query.json, query.pred
  
-            $ nextflow psldoc2_pred.nf --query=small.fa --model=m_tfpssm_merge --CA_dim=36
+            $ nextflow psldoc2_pred.nf --query small.fa --model data/prokaryotic/Archaeal.tfpssm --CA_dim 36
 
