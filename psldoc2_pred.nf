@@ -89,4 +89,3 @@ pred_query_file=read(pred_query_merge)
 plot_query_file.moveTo(new File(output_folder, plot_query_file.getName()))
 pred_query_file.moveTo(new File(output_folder, pred_query_file.getName()))
 
-
