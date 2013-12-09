@@ -29,7 +29,6 @@ if(!output_folder.exists()) output_folder.mkdirs()
 /* 
  * model part 
  */
-
 m_seq = channel()
 m_id = channel() 
 
