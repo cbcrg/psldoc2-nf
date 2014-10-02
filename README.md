@@ -52,14 +52,14 @@ Build your own model
 ------------
 
  1. training phase
-    * `psldoc2-train.nf` -> CA_train+nFoldValidation.R
+    * `psldoc2_train.nf` -> CA_train+nFoldValidation.R
     *  input: model.fasta
     *  output: model.tfpssm, plot_model.json, accuracy-nfold.csv, predict.csv (CA dims)
 
             $ nextflow psldoc2_train.nf --model=../../../data/PSL/PSORTb3.0/Archaeal.fasta --fold_num=5
 
  2. predicting phase 
-    * `psldoc2-pred.nf` -> CA_pred.R (query.fasta, model.tfpssm, CA dims)
+    * `psldoc2_pred.nf` -> CA_pred.R (query.fasta, model.tfpssm, CA dims)
     *  input: query.fasta, model.tfpssm
     *  output: plot_query.json, query.pred
  

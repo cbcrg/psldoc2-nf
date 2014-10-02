@@ -1,8 +1,8 @@
 blast_cmd="psiblast -matrix BLOSUM80 -evalue 1e-5 -gapopen 9 -gapextend 2 -threshold 999 -seg yes -soft_masking true -num_iterations 3"
 
 params.db = "/db/uniprot/latest/uniref/uniref50/blast/db/uniref50.fasta"
-params.query = "$PWD/examples/small.fa"
-params.model = "$PWD/examples/small.tfpssm"
+params.query = "${baseDir}/data/examples/small.fa"
+params.model = "${baseDir}/data/examples/small.tfpssm"
 params.CA_dim = 36
 params.output = "results"
 params.chunkSize = 1
@@ -34,19 +34,22 @@ if( !model_file.exists() ) { error 1, "Specified model file does not exist: ${mo
  * query part 
  */
 
-q_id = channel()
-q_seq = channel()
+q_id = Channel.from()
+q_seq = Channel.from()
 
 query_file = file(params.query)
-query_file.chunkFasta( params.chunkSize ) { 
+query_file.slitFasta( by:params.chunkSize ) { 
   q_id << parseId(it)
   q_seq << it 
 }
 
-task ('query blast') {
-    input q_id
-    input '-': q_seq
-    output q_tfpssm
+process query_blast {
+    input:
+    val q_id
+    stdin q_seq
+    
+    output:
+    file q_tfpssm
 
     """
     cat - | $blast_cmd -db $DB -query - -out_ascii_pssm blastResult
@@ -60,10 +63,13 @@ task ('query blast') {
  * prediction by Correspondance Analysis + 1NN (CA)
  */
 
-task ('query CA+1NN') {
-  input q_tfpssm
-  output plot_query
-  output pred_query
+process query_CA_1NN {
+  input:
+  file q_tfpssm
+  
+  output:
+  file plot_query
+  file pred_query
 
   """
   CA_pred.R ${model_file} ${q_tfpssm} ${params.CA_dim}
@@ -72,21 +78,11 @@ task ('query CA+1NN') {
   """
 }
 
-merge ('CA merge') {
-    input plot_query
-    input pred_query
-    output plot_query_merge
-    output pred_query_merge
+/* 
+ * Copy to output folder 
+ */
+ 
+plot_query.collectFile(name: 'all').subscribe { it.copyTo(output_folder) }
+pred_query.collectFile(name: 'all').subscribe { it.copyTo(output_folder) }
 
-    """
-    cat ${plot_query} >> plot_query_merge
-    cat ${pred_query} >> pred_query_merge
-    """
-}
-
-plot_query_file=read(plot_query_merge)
-pred_query_file=read(pred_query_merge)
-
-plot_query_file.moveTo(new File(output_folder, plot_query_file.getName()))
-pred_query_file.moveTo(new File(output_folder, pred_query_file.getName()))
 

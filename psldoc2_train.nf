@@ -1,7 +1,7 @@
 blast_cmd="psiblast -matrix BLOSUM80 -evalue 1e-5 -gapopen 9 -gapextend 2 -threshold 999 -seg yes -soft_masking true -num_iterations 3"
 
 params.db = "/db/uniprot/latest/uniref/uniref50/blast/db/uniref50.fasta"
-params.model = "$PWD/examples/small.fa"
+params.model = "${baseDir}/data/examples/small.fa"
 params.output = "results"
 params.fold_num = 5
 params.chunkSize = 1
@@ -29,19 +29,21 @@ if(!output_folder.exists()) output_folder.mkdirs()
 /* 
  * model part 
  */
-m_seq = channel()
-m_id = channel() 
+m_seq = Channel.create()
+m_id = Channel.create()
 
 model_file = file(params.model)
-model_file.chunkFasta( params.chunkSize ) {
+model_file.splitFasta( by:params.chunkSize ) {
   m_id << parseId(it)
   m_seq << it
 }
 
-task ('model blast') {
-    input m_id
-    input '-': m_seq
-    output m_tfpssm
+process model_blast {
+    input:
+    val m_id
+    stdin m_seq
+    output:
+    file 'm_tfpssm' into m_tfpssm
 
     """
     cat - | $blast_cmd -db $DB -query - -out_ascii_pssm blastResult
@@ -51,23 +53,18 @@ task ('model blast') {
     """
 }
 
-merge ('model merge')  {
-    input m_tfpssm
-    output m_tfpssm_merge
+(m_tfpssm_merge, m_tfpssm_merge_2) = m_tfpssm.collectFile(name: 'all')
 
-    """
-    cat ${m_tfpssm} >> m_tfpssm_merge
-    """
-}
-
-model_tfpssm_file = read(m_tfpssm_merge)
-
-task ('model CA')  {
-    input model_tfpssm_file
-    output plot_model
-    output accuracy
-    output pred_res
-    echo true
+process model_CA  {
+	echo true
+	    
+    input:
+    file model_tfpssm_file from m_tfpssm_merge
+    
+    output:
+    file plot_model
+    file accuracy
+    file pred_res
 
     """
     export R_LIBS_USER='$PWD/r_libs'
@@ -78,12 +75,8 @@ task ('model CA')  {
     """
 }
 
-plot_model_file=read(plot_model)
-accuracy_file=read(accuracy)
-pred_file=read(pred_res)
-
-plot_model_file.moveTo(new File(output_folder, plot_model_file.getName()))
-model_tfpssm_file.moveTo(new File(output_folder, model_tfpssm_file.getName()))
-accuracy_file.moveTo(new File(output_folder, accuracy_file.getName()))
-pred_file.moveTo(new File(output_folder, pred_file.getName()))
+plot_model.subscribe { it.copyTo(output_folder)  }
+accuracy.subscribe { it.copyTo(output_folder) }
+pred_res.subscribe { it.copyTo(output_folder) }
+m_tfpssm_merge_2.subscribe { it.copyTo(output_folder) }
 
