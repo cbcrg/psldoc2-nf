@@ -11,7 +11,7 @@ library("FactoMineR")
 args<-commandArgs(TRUE)
 train_tfpssm<-args[1]
 test_tfpssm<-args[2]
-CA_dim<-args[3]
+CA_dim<-as.numeric(args[3])
 
 ######################
 # load data
